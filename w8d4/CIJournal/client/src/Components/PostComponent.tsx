@@ -1,4 +1,4 @@
-import { Post } from "./App";
+import { Post } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +16,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
 	return (
 		<>
 			<div className="ml-4">
-				<p className="font-bold my-4">{post.title}</p>
+				<p className="font-bold my-4 text-xl">{post.title}</p>
 				<p>{post.body}</p>
 			</div>
 			<div className="absolute right-4 my-4 mx-12 text-lg">

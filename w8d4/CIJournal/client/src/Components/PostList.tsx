@@ -1,5 +1,5 @@
 import PostComponent from "./PostComponent";
-import { Post } from "./App";
+import { Post } from "../App";
 
 interface PostListProps {
 	posts: Post[];

@@ -1,6 +1,6 @@
-import { useForm } from "react-hook-form";
-import { Post } from "./App";
+import { Post } from "../App";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 interface handleAddNewPost {
 	handleAddNewPost: (post: Post) => void;
@@ -23,6 +23,7 @@ const Form: React.FC<handleAddNewPost> = ({ handleAddNewPost, postToEdit }) => {
 				handleAddNewPost({
 					title: data["title"] as string,
 					body: data["body"] as string,
+					date: data["date"] as string,
 				});
 				reset();
 			})}
@@ -32,6 +33,11 @@ const Form: React.FC<handleAddNewPost> = ({ handleAddNewPost, postToEdit }) => {
 				{...register("title")}
 				className="rounded mb-8 p-4 bg-amber-50"
 				placeholder="title"
+			/>
+			<input
+				{...register("date")}
+				className="rounded mb-8 p-4 bg-amber-50"
+				placeholder="date"
 			/>
 			<textarea
 				{...register("body")}
