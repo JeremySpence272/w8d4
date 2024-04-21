@@ -125,7 +125,9 @@ app.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
     }
 }));
-app.listen(PORT, () => {
-    console.log(`server running on ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
 module.exports = app;

@@ -112,8 +112,10 @@ app.delete("/delete/:id", async (req, res) => {
 	}
 });
 
-app.listen(PORT, () => {
-	console.log(`server running on ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+	app.listen(PORT, () => {
+		console.log(`Server running on port ${PORT}`);
+	});
+}
 
 module.exports = app;
