@@ -9,17 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      mongodb:
-        image: mongo
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd="mongo --eval 'db.runCommand({ping: 1})'"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
           
     strategy:
       matrix:
@@ -62,6 +51,5 @@ jobs:
 
     - name: Run Server Tests
       working-directory: ./w8d4/CIJournal/server
-      env:
-        MONGO_URI: 'mongodb+srv://jeremyspence272:XXcctPB8g2tlOLH9@cijournal-cluster.nr4u260.mongodb.net/records'
+    
       run: npm test
