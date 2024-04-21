@@ -18,11 +18,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
 	handleResetAuthType,
 	handleLoginSuccess,
 }) => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<Credentials>();
+	const { register, handleSubmit } = useForm<Credentials>();
 
 	const { makeRequest, response, error, isLoading } = useAxiosRequest();
 

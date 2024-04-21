@@ -21,6 +21,7 @@ const App: React.FC = () => {
 	const [posts, setPosts] = useState<Post[]>([]);
 	const [postToEdit, setPostToEdit] = useState<Post | null>(null);
 	const [showMessage, setShowMessage] = useState<MessageType | null>(null);
+	const [postInQueue, setPostInQueue] = useState<Post | null>(null);
 
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -43,6 +44,11 @@ const App: React.FC = () => {
 				type: "success",
 				message: "Successful database operation!",
 			});
+
+			if (response.data.newId && postInQueue) {
+				postInQueue.id = response.data.newId;
+				setPosts((prevPosts) => [...prevPosts, postInQueue]);
+			}
 		}
 	}, [response, initialPosts]);
 
@@ -71,8 +77,8 @@ const App: React.FC = () => {
 			method: "POST",
 			data: post,
 		});
-		post.id = response.data.newId;
-		setPosts((prevPosts) => [...prevPosts, post]);
+
+		setPostInQueue(post);
 	};
 
 	const handleEditPost = (post: Post): void => {

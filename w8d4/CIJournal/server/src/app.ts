@@ -58,7 +58,10 @@ app.get("/posts", async (req, res) => {
 
 app.post("/new", async (req, res) => {
 	const { date, title, body } = req.body;
-
+	if (title === "" || body === "") {
+		res.status(400).send("empty post");
+		return;
+	}
 	try {
 		const newPost = new Post({ date, title, body });
 		const posted = await newPost.save();
@@ -112,3 +115,5 @@ app.delete("/delete/:id", async (req, res) => {
 app.listen(PORT, () => {
 	console.log(`server running on ${PORT}`);
 });
+
+module.exports = app;
