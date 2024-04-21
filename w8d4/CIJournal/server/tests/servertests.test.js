@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../src/app"); // Ensure this path correctly points to the compiled app
+const app = require("../dist/app"); // Ensure this path correctly points to the compiled app
 
 describe("POST /new", () => {
 	test("should respond with 400 status if title or body is missing", async () => {
