@@ -23,10 +23,26 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
+
+    - name: Cache Server Node Modules
+      uses: actions/cache@v2
+      with:
+        path: server/node_modules
+        key: server-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournalserver/package-lock.json') }}
+        restore-keys: |
+          server-${{ matrix.node-version }}-
+
     - name: Install Server Dependencies
       working-directory: ./w8d4/CIJournal/server
       run: npm install
+
+    - name: Cache Client Node Modules
+      uses: actions/cache@v2
+      with:
+        path: client/node_modules
+        key: client-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournal/client/package-lock.json') }}
+        restore-keys: |
+          client-${{ matrix.node-version }}-
 
     - name: Install Client Dependencies
       working-directory: ./w8d4/CIJournal/client
