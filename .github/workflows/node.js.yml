@@ -28,7 +28,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: server/node_modules
-        key: server-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournalserver/package-lock.json') }}
+        key: server-${{ matrix.node-version }}-${{ hashFiles('./w8d4/CIJournalserver/package-lock.json') }}
         restore-keys: |
           server-${{ matrix.node-version }}-
 
@@ -40,7 +40,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: client/node_modules
-        key: client-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournal/client/package-lock.json') }}
+        key: client-${{ matrix.node-version }}-${{ hashFiles('./w8d4/CIJournal/client/package-lock.json') }}
         restore-keys: |
           client-${{ matrix.node-version }}-
 
