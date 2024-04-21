@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]  
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -21,28 +21,43 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+
+    - name: Cache Server Node Modules
+      uses: actions/cache@v2
+      with:
+        path: server/node_modules
+        key: server-${{ matrix.node-version }}-${{ hashFiles('server/package-lock.json') }}
+        restore-keys: |
+          server-${{ matrix.node-version }}-
 
     - name: Install server dependencies
-      working-directory: ./w8d4/CIJournal/server
+      working-directory: ./server
+      run: npm ci
+
+    - name: Cache Client Node Modules
+      uses: actions/cache@v2
+      with:
+        path: client/node_modules
+        key: client-${{ matrix.node-version }}-${{ hashFiles('client/package-lock.json') }}
+        restore-keys: |
+          client-${{ matrix.node-version }}-
+
+    - name: Install client dependencies
+      working-directory: ./client
       run: npm ci
 
     - name: Build server
-      working-directory: ./w8d4/CIJournal/server
+      working-directory: ./server
       run: npm run build --if-present
 
-    - name: Install client dependencies
-      working-directory: ./w8d4/CIJournal/client
-      run: npm ci
-
     - name: Build client
-      working-directory: ./w8d4/CIJournal/client
+      working-directory: ./client
       run: npm run build --if-present
 
     - name: Test server
-      working-directory: ./w8d4/CIJournal/server
+      working-directory: ./server
       run: npm test --if-present
 
     - name: Test client
-      working-directory: ./w8d4/CIJournal/client
+      working-directory: ./client
       run: npm test --if-present
