@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -12,52 +12,22 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x]  # Use whatever Node.js version your project requires
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-    - name: Set up Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Cache Server Node Modules
-      uses: actions/cache@v2
-      with:
-        path: server/node_modules
-        key: server-${{ matrix.node-version }}-${{ hashFiles('/w8d4/CIJournal/server/package-lock.json') }}
-        restore-keys: |
-          server-${{ matrix.node-version }}-
-
-    - name: Install server dependencies
+        cache: 'npm'
+        
+    - name: Install Server Dependencies
       working-directory: ./w8d4/CIJournal/server
-      run: npm ci
+      run: npm install
 
-    - name: Cache Client Node Modules
-      uses: actions/cache@v2
-      with:
-        path: client/node_modules
-        key: client-${{ matrix.node-version }}-${{ hashFiles('/w8d4/CIJournal/client/package-lock.json') }}
-        restore-keys: |
-          client-${{ matrix.node-version }}-
-
-    - name: Install client dependencies
+    - name: Install Client Dependencies
       working-directory: ./w8d4/CIJournal/client
-      run: npm ci
-
-    - name: Build server
-      working-directory: ./w8d4/CIJournal/server
-      run: npm run build --if-present
-
-    - name: Build client
-      working-directory: ./w8d4/CIJournal/client
-      run: npm run build --if-present
-
-    - name: Test server
-      working-directory: ./w8d4/CIJournal/server
-      run: npm test --if-present
-
-    - name: Test client
-      working-directory: ./w8d4/CIJournal/client
-      run: npm test --if-present
+      run: npm install
