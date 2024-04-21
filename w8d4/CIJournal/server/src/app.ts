@@ -1,20 +1,45 @@
 import express from "express";
-import mongoose from "mongoose";
-import Post from "./model";
+import { Post, User } from "./model";
 import cors from "cors";
+import bcrypt from "bcryptjs";
 
 const app = express();
 const PORT = 3004;
-const mongoURI =
-	"mongodb+srv://jeremyspence272:XXcctPB8g2tlOLH9@cijournal-cluster.nr4u260.mongodb.net/records";
 
 app.use(cors());
 app.use(express.json());
 
-mongoose
-	.connect(mongoURI)
-	.then(() => console.log("connectedtoDB!!!"))
-	.catch((err) => console.log(err));
+app.post("/login", async (req, res) => {
+	const { username, password } = req.body;
+
+	try {
+		const user = await User.findOne({ username });
+		if (!user) {
+			return res.status(404).send("invalid username");
+		}
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (isMatch) return res.send("success");
+		else res.status(401).send("Invalid credentials");
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).send(error.message);
+		}
+	}
+});
+
+app.post("/register", async (req, res) => {
+	const { username, password } = req.body;
+
+	try {
+		const newUser = new User({ username: username, password: password });
+		await newUser.save();
+		res.status(201).send("successfully registered");
+	} catch (error) {
+		if (error instanceof Error) {
+			res.status(500).send(error.message);
+		}
+	}
+});
 
 app.get("/posts", async (req, res) => {
 	try {
@@ -32,12 +57,12 @@ app.get("/posts", async (req, res) => {
 });
 
 app.post("/new", async (req, res) => {
-	const { id, date, title, body } = req.body;
+	const { date, title, body } = req.body;
 
 	try {
-		const newPost = new Post({ id, date, title, body });
-		await newPost.save();
-		res.status(201).send("added post");
+		const newPost = new Post({ date, title, body });
+		const posted = await newPost.save();
+		res.status(201).send({ newId: posted._id });
 	} catch (error) {
 		if (error instanceof Error) {
 			res.status(400).send(error.message);
@@ -70,7 +95,7 @@ app.delete("/delete/:id", async (req, res) => {
 	const id = req.params.id;
 
 	try {
-		const delQuery = { id: id };
+		const delQuery = { _id: id };
 		const response = await Post.deleteOne(delQuery);
 		if (response) {
 			res.status(200).send("deleted post");
