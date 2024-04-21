@@ -1,6 +1,19 @@
 const request = require("supertest");
 const app = require("../dist/app"); // Ensure this path correctly points to the compiled app
 
+let server;
+
+beforeAll((done) => {
+	server = app.listen(3004, () => {
+		global.agent = request.agent(server);
+		done();
+	});
+});
+
+afterAll((done) => {
+	server.close(done);
+});
+
 describe("POST /new", () => {
 	test("should respond with 400 status if title or body is missing", async () => {
 		const response = await request(app).post("/new").send({
@@ -20,7 +33,7 @@ describe("POST /new", () => {
 			body: longText,
 		});
 		expect(response.statusCode).toBe(201);
-	}, 10000);
+	});
 });
 describe("POST /new", () => {
 	test("should handle special characters in input", async () => {
@@ -30,5 +43,5 @@ describe("POST /new", () => {
 			body: "Body with emojis 😂 and symbols @#$%",
 		});
 		expect(response.statusCode).toBe(201);
-	}, 10000);
+	});
 });
