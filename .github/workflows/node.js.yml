@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]  # Use whatever Node.js version your project requires
+        node-version: [16.x]  # Update this depending on which Node.js versions you support
 
     steps:
     - name: Checkout Repository
@@ -27,8 +27,8 @@ jobs:
     - name: Cache Server Node Modules
       uses: actions/cache@v2
       with:
-        path: server/node_modules
-        key: server-${{ matrix.node-version }}-${{ hashFiles('./w8d4/CIJournalserver/package-lock.json') }}
+        path: w8d4/CIJournal/server/node_modules
+        key: server-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournal/server/package-lock.json') }}
         restore-keys: |
           server-${{ matrix.node-version }}-
 
@@ -39,8 +39,8 @@ jobs:
     - name: Cache Client Node Modules
       uses: actions/cache@v2
       with:
-        path: client/node_modules
-        key: client-${{ matrix.node-version }}-${{ hashFiles('./w8d4/CIJournal/client/package-lock.json') }}
+        path: w8d4/CIJournal/client/node_modules
+        key: client-${{ matrix.node-version }}-${{ hashFiles('w8d4/CIJournal/client/package-lock.json') }}
         restore-keys: |
           client-${{ matrix.node-version }}-
 
