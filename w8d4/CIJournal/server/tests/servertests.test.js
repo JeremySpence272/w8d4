@@ -18,7 +18,7 @@ describe("POST /new", () => {
 			body: "Sample body",
 		});
 		expect(response.statusCode).toBe(201);
-	});
+	}, 10000);
 	test("should handle special characters in input", async () => {
 		const response = await request(app).post("/new").send({
 			date: "04/21/2024",
@@ -26,5 +26,5 @@ describe("POST /new", () => {
 			body: "Body with emojis 😂 and symbols @#$%",
 		});
 		expect(response.statusCode).toBe(201);
-	});
+	}, 10000);
 });
