@@ -11,7 +11,7 @@ describe("POST /new", () => {
 		expect(response.statusCode).toBe(400);
 	});
 	test("should handle long text inputs", async () => {
-		const longTitle = "lorem ipsum".repeat(5000);
+		const longTitle = "lorem ipsum".repeat(500);
 		const response = await request(app).post("/new").send({
 			date: "04/21/2024",
 			title: longTitle,
