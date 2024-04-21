@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]  # Ensure this version matches your project's requirements
+        node-version: [20.x] 
 
     steps:
     - name: Checkout Repository
@@ -48,3 +48,7 @@ jobs:
     - name: Install Client Dependencies
       working-directory: ./w8d4/CIJournal/client
       run: npm install
+
+    - name: Run Server Tests
+      working-directory: ./w8d4/CIJournal/server
+      run: npm test
