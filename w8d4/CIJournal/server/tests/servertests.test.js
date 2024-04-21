@@ -5,9 +5,7 @@ const { recordsDb } = require("../dist/dbConnections");
 const { default: mongoose } = require("mongoose");
 
 beforeAll(async () => {
-	await mongoose.connect(
-		"mongodb+srv://jeremyspence272:XXcctPB8g2tlOLH9@cijournal-cluster.nr4u260.mongodb.net/records"
-	);
+	await mongoose.connect(process.env.MONGO_URI);
 });
 
 afterAll(async () => {
@@ -20,7 +18,7 @@ describe("POST /new", () => {
 		const response = await request(app).post("/new").send({
 			date: "04/21/2024",
 			title: "",
-			body: "Sample body",
+			body: "body",
 		});
 		expect(response.statusCode).toBe(400);
 	}, 20000);
