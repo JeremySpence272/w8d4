@@ -24,25 +24,25 @@ jobs:
         cache: 'npm'
 
     - name: Install server dependencies
-      working-directory: ./CIJournal/server
+      working-directory: ./w8d4/CIJournal/server
       run: npm ci
 
     - name: Build server
-      working-directory: ./CIJournal/server
+      working-directory: ./w8d4/CIJournal/server
       run: npm run build --if-present
 
     - name: Install client dependencies
-      working-directory: ./CIJournal/client
+      working-directory: ./w8d4/CIJournal/client
       run: npm ci
 
     - name: Build client
-      working-directory: ./CIJournal/client
+      working-directory: ./w8d4/CIJournal/client
       run: npm run build --if-present
 
     - name: Test server
-      working-directory: ./CIJournal/server
+      working-directory: ./w8d4/CIJournal/server
       run: npm test --if-present
 
     - name: Test client
-      working-directory: ./CIJournal/client
+      working-directory: ./w8d4/CIJournal/client
       run: npm test --if-present
