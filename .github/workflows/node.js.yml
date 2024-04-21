@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]  # Update this depending on which Node.js versions you support
+        node-version: [16.x]  # Ensure this version matches your project's requirements
 
     steps:
     - name: Checkout Repository
@@ -23,6 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: w8d4/CIJournal/server/package-lock.json
 
     - name: Cache Server Node Modules
       uses: actions/cache@v2
