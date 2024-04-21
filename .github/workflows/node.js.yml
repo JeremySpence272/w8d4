@@ -51,4 +51,4 @@ jobs:
 
     - name: Run Server Tests
       working-directory: ./w8d4/CIJournal/server
-      run: npm test
+      run: npm test -- --detectOpenHandles
