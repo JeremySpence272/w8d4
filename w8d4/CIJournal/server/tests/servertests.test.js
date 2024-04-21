@@ -1,12 +1,7 @@
 const request = require("supertest");
 const app = require("../dist/app"); // Ensure this path correctly points to the compiled app
 
-const { recordsDb } = require("../dist/dbConnections");
 const { default: mongoose } = require("mongoose");
-
-beforeAll(async () => {
-	await mongoose.connect(process.env.MONGO_URI);
-});
 
 afterAll(async () => {
 	await mongoose.disconnect();
@@ -21,7 +16,7 @@ describe("POST /new", () => {
 			body: "body",
 		});
 		expect(response.statusCode).toBe(400);
-	}, 20000);
+	});
 });
 describe("POST /new", () => {
 	test("should handle long text inputs", async () => {
@@ -33,7 +28,7 @@ describe("POST /new", () => {
 			body: longText,
 		});
 		expect(response.statusCode).toBe(201);
-	}, 20000);
+	});
 });
 describe("POST /new", () => {
 	test("should handle special characters in input", async () => {
@@ -44,5 +39,5 @@ describe("POST /new", () => {
 			body: "Body with emojis 😂 and symbols @#$%",
 		});
 		expect(response.statusCode).toBe(201);
-	}, 20000);
+	});
 });
