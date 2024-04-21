@@ -10,15 +10,19 @@ describe("POST /new", () => {
 		});
 		expect(response.statusCode).toBe(400);
 	});
+});
+describe("POST /new", () => {
 	test("should handle long text inputs", async () => {
-		const longTitle = "lorem ipsum".repeat(500);
+		const longText = "lorem ipsum".repeat(500);
 		const response = await request(app).post("/new").send({
 			date: "04/21/2024",
-			title: longTitle,
-			body: "Sample body",
+			title: "title",
+			body: longText,
 		});
 		expect(response.statusCode).toBe(201);
 	}, 10000);
+});
+describe("POST /new", () => {
 	test("should handle special characters in input", async () => {
 		const response = await request(app).post("/new").send({
 			date: "04/21/2024",
