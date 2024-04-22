@@ -1,6 +1,12 @@
 const request = require("supertest");
 const app = require("../dist/app");
 
+const { default: mongoose } = require("mongoose");
+
+afterAll(async () => {
+	await mongoose.disconnect();
+});
+
 describe("POST /new", () => {
 	test("should respond with 400 status if title or body is missing", async () => {
 		expect.assertions(1);
